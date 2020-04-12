@@ -15,11 +15,13 @@
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
   ctx.lineWidth = 50;
+  //ctx.globalCompositeOperation = "soft-light";
   
   let isDrawing = false;
   let lastX = 0;
   let lastY = 0;
   let hue = 0;
+  let direction = true;
 
   function draw(e) {
     if (!isDrawing) return; // stop the function from running when users are not moused down
@@ -33,6 +35,18 @@
     ctx.stroke();
     [lastX,lastY] = [e.offsetX, e.offsetY]; // array destructuring
     hue++;
+    if (hue >= 360) {
+      hue = 0;
+    }
+    if(ctx.lineWidth >= 300 || ctx.lineWidth <= 1) {
+      direction = !direction;
+    } 
+
+    if (direction) {
+      ctx.lineWidth++;
+    } else {
+      ctx.lineWidth--;
+    }
   }
 
   canvas.addEventListener('mousedown', (e) =>  {
