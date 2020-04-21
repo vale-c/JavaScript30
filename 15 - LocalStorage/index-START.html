@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" href="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" href="#">
   <title>Local Storage</title>
   <link rel="stylesheet" href="style.css" type="text/css">
 </head>
@@ -31,15 +31,27 @@
   const itemsList = document.querySelector('.plates');
   const items = [];
 
+  function populateList(plates = [], platesList) {
+    platesList.innerHTML = plates.map((plate,i) => {
+      return `
+          <li>
+            <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} />
+            <label for="item${i}">${plate.text}</label>
+          </li>
+      `;
+    }).join('');
+  }
+
   function addItem(e) {
     e.preventDefault(); //stop the page from reloading
-    const text = this.querySelector('[name=item]');
-    //console.log(text);
+    const text = (this.querySelector('[name=item]')).value;
     const item = {
-      text: 'Item name',
+      text,
       done: false
     }
-    console.log(item);
+    items.push(item);
+    populateList(items, itemsList);
+    this.reset();
   }
 
   addItems.addEventListener('submit', addItem);
